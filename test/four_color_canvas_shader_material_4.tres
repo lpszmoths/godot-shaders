@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://shaders/four_color_canvas_shader.tres" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/color_black = Color( 0, 0.14902, 0.278431, 1 )
+shader_param/color_red = Color( 0.337255, 0.4, 0.368627, 1 )
+shader_param/color_green = Color( 0.984314, 0.690196, 1, 1 )
+shader_param/color_blue = Color( 0.490196, 0.258824, 0.435294, 1 )

@@ -1,0 +1,42 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+render_mode diffuse_lambert, cull_back;
+
+uniform sampler2D albedo_texture : hint_albedo;
+uniform vec4 color_black : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform vec4 color_red : hint_color = vec4(1.0, 0.0, 0.0, 1.0);
+uniform vec4 color_green : hint_color = vec4(0.0, 1.0, 0.0, 1.0);
+uniform vec4 color_blue : hint_color = vec4(0.0, 0.0, 1.0, 1.0);
+
+varying vec4 vertex_color;
+
+void vertex() {
+    vertex_color = COLOR.rgba; // make the normal the color
+}
+
+void fragment() {
+	vec4 texture_color = texture(albedo_texture, UV);
+	vec4 input_color = mix(
+		vertex_color,
+		texture_color,
+		texture_color.a
+	);
+	
+	vec4 albedo = vec4(0.0);
+	albedo += input_color.r * color_red;
+	albedo += input_color.g * color_green;
+	albedo += input_color.b * color_blue;
+	
+	float black_amount = 1.0 - clamp(
+		length(albedo),
+		0.0,
+		1.0
+	);
+	albedo += black_amount * color_black;
+	albedo = clamp(albedo, vec4(0.0), vec4(1.0));
+	
+	ALBEDO = albedo.rgb;
+}
+"
